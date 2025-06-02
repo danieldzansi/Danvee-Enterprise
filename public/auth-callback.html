@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authenticating...</title>
+    <link rel="stylesheet" href="../css/styles.css" />
 </head>
 <body>
     <p>Processing authentication, please wait...</p>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script type="module" src="../js/supabaseClient.js"></script>
+
     <script type="module">
-        import { supabase } from './supabaseClient.js';
+        import { supabase } from '../js/supabaseClient.js';
 
         document.addEventListener('DOMContentLoaded', async () => {
             console.log('auth-callback.html: DOMContentLoaded fired.');
