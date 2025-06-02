@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DANVEE - Home</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script type="module" src="../js/supabaseClient.js"></script>
+  <script type="module" src="../js/header.js"></script>
+  <script type="module" src="../js/products.js"></script>
+</head>
+<body>
+  <header class="header sticky-header">
+    <div class="logo">DANVEE</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+    </nav>
+    <div class="header-actions">
+      <input class="search-bar" id="search-input" type="text" placeholder="Search products, brands and categories" />
+      <button class="search-btn">Search</button>
+      <a href="cart.html" class="cart-link">Cart</a>
+      <span id="user-area">
+        <a href="login.html" id="login-link">Login</a> /
+        <a href="signup.html" id="register-link">Register</a>
+      </span>
+    </div>
+  </header>
+  <main>
+    <section class="banner">
+      <div class="banner-content">
+        <h2>FLASH SALE</h2>
+        <p>Amazing Deals you don't want to miss</p>
+      </div>
+    </section>
+    <section class="categories" id="categories">
+      <div class="category-card">
+        <img src="https://img.icons8.com/ios-filled/50/000000/headphones.png" alt="Mobile Accessories" />
+        <span>Mobile Accessories</span>
+      </div>
+      <div class="category-card">
+        <img src="https://img.icons8.com/ios-filled/50/000000/t-shirt.png" alt="Fashion" />
+        <span>Fashion</span>
+      </div>
+      <div class="category-card">
+        <img src="https://img.icons8.com/ios-filled/50/000000/grocery-bag.png" alt="Supermarket" />
+        <span>Supermarket</span>
+      </div>
+      <div class="category-card">
+        <img src="https://img.icons8.com/ios-filled/50/000000/home.png" alt="Home and Office" />
+        <span>Home and Office</span>
+      </div>
+      <div class="category-card">
+        <img src="https://img.icons8.com/ios-filled/50/000000/heart-health.png" alt="Health and Beauty" />
+        <span>Health and Beauty</span>
+      </div>
+      <div class="category-card">
+        <img src="https://img.icons8.com/ios-filled/50/000000/laptop.png" alt="Computing" />
+        <span>Computing</span>
+      </div>
+    </section>
+    <h1>Shop</h1>
+    <section class="products" id="product-list">
+      <!-- Products will be rendered here by JS -->
+    </section>
+    <a href="cart.html">View Cart</a>
+  </main>
+</body>
+</html> 

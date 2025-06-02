@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating...</title>
+</head>
+<body>
+    <p>Processing authentication, please wait...</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script type="module">
+        import { supabase } from './supabaseClient.js';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('auth-callback.html: DOMContentLoaded fired.');
+            // This page is meant to handle redirects from Supabase auth (e.g., email confirmation, password reset).
+            // The access token and refresh token are typically in the URL hash (#).
+            const { data, error } = await supabase.auth.getSession();
+
+            if (error) {
+                console.error('auth-callback.html: Error getting session after redirect:', error.message);
+                // Optionally display an error message to the user
+                document.body.innerHTML = '<p style="color: red;">Authentication failed. Please try again.</p>';
+            } else if (data?.session) {
+                console.log('auth-callback.html: Session found after redirect.', data.session);
+                console.log('Session found after redirect, redirecting to home page...');
+                // Redirect to the home page after successful authentication
+                window.location.replace('index.html');
+            } else {
+                 console.log('auth-callback.html: No session found after redirect.');
+                 console.log('No session found after redirect, redirecting to login...');
+                 // If no session is found (e.g., email confirmation link already used or invalid),
+                 // redirect to the login page.
+                 window.location.replace('login.html');
+            }
+        });
+    </script>
+</body>
+</html>

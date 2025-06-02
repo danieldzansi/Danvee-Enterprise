@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shop - My E-commerce Site</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script type="module" src="../js/supabaseClient.js"></script>
+  <script type="module" src="../js/header.js"></script>
+  <script type="module" src="../js/products.js"></script>
+</head>
+<body>
+  <header class="header sticky-header">
+    <div class="logo">DANVEE</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+    </nav>
+    <div class="header-actions">
+      <input class="search-bar" type="text" placeholder="Search products, brands and categories" />
+      <button class="search-btn">Search</button>
+      <a href="cart.html" class="cart-link">Cart</a>
+      <span id="user-area">
+        <a href="login.html" id="login-link">Login</a> /
+        <a href="signup.html" id="register-link">Register</a>
+      </span>
+    </div>
+  </header>
+  <main>
+    <h1>Shop</h1>
+    <div id="filter-bar" class="filter-bar">
+      <label>Category:
+        <select id="filter-category">
+          <option value="">All</option>
+        </select>
+      </label>
+      <label>Min Price:
+        <input type="number" id="filter-min-price" min="0" placeholder="0" />
+      </label>
+      <label>Max Price:
+        <input type="number" id="filter-max-price" min="0" placeholder="1000" />
+      </label>
+      <button id="filter-apply">Apply</button>
+      <button id="filter-clear">Clear</button>
+    </div>
+    <section class="products" id="product-list">
+      <!-- Products will be rendered here by JS -->
+    </section>
+    <a href="cart.html">View Cart</a>
+  </main>
+</body>
+</html> 

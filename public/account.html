@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Account - My E-commerce Site</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script type="module" src="../js/supabaseClient.js"></script>
+  <script type="module" src="../js/header.js" defer></script>
+  <script src="../js/account.js" defer type="module"></script>
+</head>
+<body>
+  <header class="header sticky-header">
+    <div class="logo">DANVEE</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="#categories">Categories</a>
+    </nav>
+    <div class="header-actions">
+      <input class="search-bar" type="text" placeholder="Search products, brands and categories" />
+      <button class="search-btn">Search</button>
+      <a href="cart.html" class="cart-link">Cart</a>
+      <span id="user-area">
+        <a href="login.html" id="login-link">Login</a> /
+        <a href="signup.html" id="register-link">Register</a>
+      </span>
+    </div>
+  </header>
+  <main>
+    <section class="account-info">
+      <h1>Your Account</h1>
+      <div id="user-info"></div>
+      <button id="logout-btn">Logout</button>
+      <h2>Order History</h2>
+      <div id="order-history">No orders yet.</div>
+    </section>
+  </main>
+</body>
+</html> 

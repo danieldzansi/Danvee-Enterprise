@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cart - My E-commerce Site</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script type="module" src="../js/supabaseClient.js"></script>
+  <script type="module" src="../js/header.js"></script>
+  <script type="module" src="../js/cart.js"></script>
+</head>
+<body>
+  <header class="header sticky-header">
+    <div class="logo">DANVEE</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      
+    </nav>
+    <div class="header-actions">
+      <a href="cart.html" class="cart-link">Cart</a>
+      <span id="user-area">
+        <a href="login.html" id="login-link">Login</a> /
+        <a href="signup.html" id="register-link">Register</a>
+      </span>
+    </div>
+  </header>
+  <main>
+    <h1>Your Cart</h1>
+    <div id="cart-items"></div>
+    <button id="checkout-btn" class="auth-btn" style="margin-top:24px;">Proceed to Checkout</button>
+    <a href="shop.html">Continue Shopping</a>
+  </main>
+</body>
+</html> 

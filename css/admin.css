@@ -1,0 +1,109 @@
+/* Add your admin-specific styles here */
+
+.admin-header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-header h1 {
+    margin: 0;
+}
+
+.admin-header nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.admin-main {
+    padding: 20px;
+}
+
+#orders-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#orders-list th, #orders-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#orders-list th {
+    background-color: #f2f2f2;
+}
+
+/* Admin Login Styles */
+.admin-auth-bg {
+    background-color: #f0f0f0; /* Light grey background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.admin-auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.admin-auth-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.admin-auth-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.admin-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-auth-label {
+    text-align: left;
+    font-weight: bold;
+    color: #555;
+}
+
+.admin-auth-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.admin-auth-btn {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-auth-btn:hover {
+    background-color: #555;
+}
+
+.admin-auth-feedback {
+    margin-top: 15px;
+    font-size: 0.9em;
+} 
