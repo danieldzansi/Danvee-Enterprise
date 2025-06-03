@@ -128,8 +128,7 @@ async function fetchAndPopulateCategories() {
   // Fetch distinct categories from the products table
   const { data, error } = await supabase
     .from('products')
-    .select('category')
-    .distinct();
+    .select('category', { distinct: true });
 
   if (error) {
     console.error('Error fetching categories:', error);
