@@ -42,9 +42,10 @@ supabase.auth.onAuthStateChange((_event, session) => {
     updateHeaderUserState();
     // If the event is SIGNIN and we are on the index page after a redirect,
     // potentially redirect to the account page.
-    if (_event === 'SIGNED_IN' && window.location.pathname.endsWith('index.html')) {
-         console.log('User signed in on index page, redirecting to account...');
-         // Small delay to ensure session is fully set up
-         setTimeout(() => { window.location.replace('account.html'); }, 100);
-    }
+    // Removed redirection from index.html for signed-in users
+    // if (_event === 'SIGNED_IN' && window.location.pathname.endsWith('index.html')) {
+    //      console.log('User signed in on index page, redirecting to account...');
+    //      // Small delay to ensure session is fully set up
+    //      setTimeout(() => { window.location.replace('account.html'); }, 100);
+    // }
 }); 
