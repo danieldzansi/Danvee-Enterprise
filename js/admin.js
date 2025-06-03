@@ -23,24 +23,24 @@ async function isAdmin() {
   return data !== null;
 }
 
+// Function to check auth and redirect if not authorized
+async function checkAdminAuthAndRedirect() {
+    const userIsAdmin = await isAdmin();
+    if (!userIsAdmin) {
+        console.log("User is not authorized for admin dashboard. Redirecting to login.");
+        // Redirect to the admin login page
+        window.location.replace('login.html');
+    }
+}
+
 // Function to fetch and display orders
 async function fetchAndDisplayOrders() {
   console.log("Fetching orders for admin...");
 
   const ordersListDiv = document.getElementById('orders-list');
 
-  // Implement admin authentication check here
-  const userIsAdmin = await isAdmin();
-
-  if (!userIsAdmin) {
-    console.log("User is not an admin. Access denied.");
-    if (ordersListDiv) {
-      ordersListDiv.innerHTML = '<p>Access Denied: You must be an administrator to view orders.</p>';
-    }
-    return;
-  }
-
-  console.log("User is an admin, fetching orders...");
+  // We already checked admin status on page load, so no need to check again here
+  // unless you want a real-time check (less common on dashboard load).
 
   const { data: orders, error } = await supabase
     .from('orders')
@@ -88,7 +88,9 @@ async function fetchAndDisplayOrders() {
   }
 }
 
-// Fetch and display orders when the page loads
-document.addEventListener('DOMContentLoaded', () => {
+// Check authentication and then fetch orders when the page loads
+document.addEventListener('DOMContentLoaded', async () => {
+  await checkAdminAuthAndRedirect(); // Ensure this runs first
+  // Only attempt to fetch orders if the user was NOT redirected
   fetchAndDisplayOrders();
 }); 
