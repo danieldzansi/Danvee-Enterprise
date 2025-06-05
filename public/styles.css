@@ -267,74 +267,77 @@ button:hover {
   }
   body {
     padding-top: 150px; /* Further adjust padding for very small screens */
-    font-size: 16px; /* Increase base font size for mobile */
+    font-size: 18px; /* Increase base font size for mobile */
   }
   .main-nav {
     flex-direction: column;
-    gap: 6px;
+    gap: 8px; /* Increased gap */
     width: 100%;
   }
   .main-nav a {
-    font-size: 1.1rem; /* Increase navigation font size */
+    font-size: 1.4rem; /* Increase navigation font size further */
   }
   .header-actions {
     flex-direction: column;
     align-items: stretch;
-    gap: 6px;
+    gap: 8px; /* Increased gap */
     width: 100%;
   }
   .search-bar {
     min-width: 100px;
     width: 100%;
-    font-size: 1rem; /* Ensure search bar text is readable */
+    font-size: 1.3rem; /* Ensure search bar text is readable */
   }
   .search-btn {
-    font-size: 1rem; /* Match search button text size */
+    font-size: 1.3rem; /* Match search button text size */
   }
   .cart-link, #user-area a {
-    font-size: 1.1rem; /* Increase cart and user area text size */
+    font-size: 1.4rem; /* Increase cart and user area text size further */
   }
   .banner-content h2 {
-    font-size: 2rem; /* Adjust banner heading size */
+    font-size: 2.6rem; /* Adjust banner heading size */
   }
   .banner-content p {
-    font-size: 1.1rem; /* Adjust banner text size */
+    font-size: 1.4rem; /* Adjust banner text size */
   }
   .category-card span {
-    font-size: 1.1rem; /* Increase category text size */
+    font-size: 1.4rem; /* Increase category text size further */
   }
   .product-card h3 {
-    font-size: 1.2rem; /* Increase product title size */
+    font-size: 1.5rem; /* Increase product title size further */
   }
   .product-card p {
-    font-size: 1.1rem; /* Increase product price size */
+    font-size: 1.4rem; /* Increase product price size further */
   }
   .product-card button {
-    font-size: 1.1rem; /* Increase button text size */
+    font-size: 1.4rem; /* Increase button text size further */
   }
   .cart-item-info {
-    font-size: 1.1rem; /* Increase cart item text size */
+    font-size: 1.4rem; /* Increase cart item text size further */
   }
   .cart-qty-input {
-    font-size: 1.1rem; /* Increase quantity input text size */
+    width: 60px; /* Increased width */
+    padding: 8px; /* Increased padding */
+    font-size: 1.4rem; /* Increase quantity input text size */
   }
   .cart-remove-btn {
-    font-size: 1.1rem; /* Increase remove button text size */
+    font-size: 1.4rem; /* Increase remove button text size */
+    padding: 8px 16px; /* Increased padding */
   }
   .cart-total {
-    font-size: 1.3rem; /* Increase cart total text size */
+    font-size: 1.6rem; /* Increase cart total text size */
   }
   .product-detail-info h2 {
-    font-size: 1.6rem; /* Adjust product detail title size */
+    font-size: 2.2rem; /* Adjust product detail title size */
   }
   .product-price {
-    font-size: 1.4rem; /* Adjust product price size */
+    font-size: 2rem; /* Adjust product price size */
   }
   .product-detail-info p {
-    font-size: 1.1rem; /* Increase product description text size */
+    font-size: 1.4rem; /* Increase product description text size */
   }
   .product-detail-info button {
-    font-size: 1.2rem; /* Increase add to cart button text size */
+    font-size: 1.5rem; /* Increase add to cart button text size */
   }
 }
 .auth-bg {
@@ -530,35 +533,69 @@ button:hover {
 }
 @media (max-width: 500px) {
   .auth-card {
-    padding: 18px 4px 10px 4px;
-    max-width: 99vw;
+    padding: 30px 16px 20px 16px; /* Increased padding for better spacing */
+    max-width: 90vw; /* Adjusted max-width */
   }
   .auth-title {
-    font-size: 1.15rem;
+    font-size: 1.8rem; /* Increase login title size */
   }
   .auth-logo, .star-icon {
-    font-size: 2.1rem;
+    font-size: 3.5rem; /* Increase login logo size */
   }
-  .auth-btn, .auth-facebook-btn {
-    font-size: 1rem;
-    padding: 12px 0;
+  .auth-desc {
+    font-size: 1.3rem; /* Increase login description size */
+  }
+  .auth-label {
+    font-size: 1.3rem; /* Increase login label size */
   }
   .auth-input, .email-summary {
-    font-size: 0.98rem;
-    padding: 10px 8px;
+    font-size: 1.3rem; /* Increase login input size */
+    padding: 16px 14px; /* Adjusted padding */
   }
-  /* Added styles for category card responsiveness */
+  .auth-btn, .auth-facebook-btn {
+    font-size: 1.3rem; /* Increase login button size */
+    padding: 18px 0; /* Adjusted padding */
+  }
+  .auth-terms {
+    font-size: 1.2rem; /* Increase terms text size */
+  }
+  .forgot-password a {
+    font-size: 1.2rem; /* Increase forgot password link size */
+  }
   .categories {
-    margin: 16px 8px; /* Adjust margin for smaller screens */
-    gap: 8px; /* Adjusted gap */
+    margin: 20px 10px; /* Adjust margin for smaller screens */
+    gap: 10px; /* Adjusted gap */
   }
 
   .category-card {
     /* Make cards take up roughly half the width, accounting for the gap */
-    flex: 0 0 calc(50% - 4px); /* Use flex: 0 0 for more explicit sizing, adjusted calc based on gap */
-    width: calc(50% - 4px); /* Add width as well, adjusted calc based on gap */
+    flex: 0 0 calc(50% - 5px); /* Use flex: 0 0 for more explicit sizing, adjusted calc based on gap */
+    width: calc(50% - 5px); /* Add width as well, adjusted calc based on gap */
     max-width: none; /* Remove max-width constraint on small screens */
-    padding: 12px; /* Slightly reduce padding */
+    padding: 20px; /* Slightly increase padding */
+  }
+  .category-card span {
+    font-size: 1.4rem; /* Ensure category text is readable on smaller screens */
+  }
+  .products {
+    margin: 20px 10px; /* Adjust margin for smaller screens */
+    gap: 10px; /* Adjusted gap */
+  }
+  .product-card {
+    /* Make cards take up roughly half the width, accounting for the gap */
+    flex: 0 0 calc(50% - 5px); /* Use flex: 0 0 for more explicit sizing, adjusted calc based on gap */
+    width: calc(50% - 5px); /* Add width as well, adjusted calc based on gap */
+    max-width: none; /* Remove max-width constraint on small screens */
+    padding: 18px; /* Slightly increase padding */
+  }
+  .product-card h3 {
+    font-size: 1.5rem; /* Ensure product title is readable on smaller screens */
+  }
+  .product-card p {
+    font-size: 1.4rem; /* Ensure product price is readable on smaller screens */
+  }
+  .product-card button {
+    font-size: 1.4rem; /* Ensure product button is readable on smaller screens */
   }
 }
 .cart-item {

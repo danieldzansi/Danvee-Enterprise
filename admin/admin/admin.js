@@ -28,8 +28,9 @@ async function checkAdminAuthAndRedirect() {
     const userIsAdmin = await isAdmin();
     if (!userIsAdmin) {
         console.log("User is not authorized for admin dashboard. Redirecting to login.");
-        // Redirect to the admin login page
-        window.location.replace('login.html');
+        // Redirect to the admin login page - REMOVED
+        // window.location.replace('login.html');
+        // Instead of redirecting, the adminAuth.js handles showing the login section
     }
 }
 
@@ -90,7 +91,8 @@ async function fetchAndDisplayOrders() {
 
 // Check authentication and then fetch orders when the page loads
 document.addEventListener('DOMContentLoaded', async () => {
-  await checkAdminAuthAndRedirect(); // Ensure this runs first
-  // Only attempt to fetch orders if the user was NOT redirected
-  fetchAndDisplayOrders();
+  // await checkAdminAuthAndRedirect(); // Ensure this runs first - Commented out
+  // Only attempt to fetch orders if the user was NOT redirected - Commented out
+  // fetchAndDisplayOrders(); // Commented out
+  console.log('Admin DOMContentLoaded: Initial checks skipped for debugging.');
 }); 
