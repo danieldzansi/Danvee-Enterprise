@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <img src="${product.image_url || 'https://via.placeholder.com/400x400?text=No+Image'}" alt="${product.name}" class="product-detail-image"/>
             <div class="product-detail-info">
                 <h2>${product.name}</h2>
-                <p class="product-price">$${Number(product.price).toFixed(2)}</p>
+                <p class="product-price">₵${Number(product.price).toFixed(2)}</p>
                 <p>${product.description || 'No description available.'}</p>
                 <button id="add-to-cart-button" data-id="${product.id}">Add to Cart</button>
             </div>

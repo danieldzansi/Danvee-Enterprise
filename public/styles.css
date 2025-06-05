@@ -252,9 +252,9 @@ button:hover {
     align-self: flex-end; /* Align to the right */
   }
 
-  .header-actions .cart-link, 
+  .header-actions .cart-link,
   .header-actions #user-area {
-    width: auto; /* Allow these to take natural width */
+    width: 100%; /* Allow these to take natural width */
     align-self: flex-start; /* Align to the left */
     margin-top: 8px; /* Add a little space above */
   }
@@ -297,7 +297,7 @@ button:hover {
 
   .header-actions .cart-link,
   .header-actions #user-area {
-    width: auto; /* Allow these to take natural width */
+    width: 100%; /* Allow these to take natural width */
     align-self: flex-start; /* Align to the left */
     margin-top: 6px; /* Add a little space above */
   }
@@ -511,6 +511,19 @@ button:hover {
   .auth-input, .email-summary {
     font-size: 0.98rem;
     padding: 10px 8px;
+  }
+  /* Added styles for category card responsiveness */
+  .categories {
+    margin: 16px 8px; /* Adjust margin for smaller screens */
+    gap: 8px; /* Adjusted gap */
+  }
+
+  .category-card {
+    /* Make cards take up roughly half the width, accounting for the gap */
+    flex: 0 0 calc(50% - 4px); /* Use flex: 0 0 for more explicit sizing, adjusted calc based on gap */
+    width: calc(50% - 4px); /* Add width as well, adjusted calc based on gap */
+    max-width: none; /* Remove max-width constraint on small screens */
+    padding: 12px; /* Slightly reduce padding */
   }
 }
 .cart-item {

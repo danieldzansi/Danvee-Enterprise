@@ -99,7 +99,7 @@ async function fetchAndRenderProducts(filters = {}) {
       <a href="product.html?id=${product.id}" class="product-card-link">
         <img src="${product.image_url || 'https://via.placeholder.com/180x180?text=No+Image'}" alt="${product.name}" loading="lazy"/>
         <h3>${product.name}</h3>
-        <p>$${Number(product.price).toFixed(2)}</p>
+        <p>₵${Number(product.price).toFixed(2)}</p>
       </a>
       <button data-id="${product.id}" class="add-to-cart-btn">Add to Cart</button>
     `;

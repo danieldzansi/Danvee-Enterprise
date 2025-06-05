@@ -231,13 +231,13 @@ async function renderCart() { // Made async because getCart is now async
         <img src="${item.image_url || 'https://via.placeholder.com/80x80?text=No+Image'}" alt="${item.name || 'Product'}" />
         <div class="cart-item-info">
           <strong>${item.name || 'Unknown Product'}</strong><br />
-          $${Number(item.price || 0).toFixed(2)} x 
+          ₵${Number(item.price || 0).toFixed(2)} x 
           <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-qty-input" />
           <button class="cart-remove-btn" data-id="${item.id}">Remove</button>
         </div>
       </div>
     `;
-  }).join('') + `<div class="cart-total">Total: <strong>$${total.toFixed(2)}</strong></div>`;
+  }).join('') + `<div class="cart-total">Total: <strong>₵${total.toFixed(2)}</strong></div>`;
 
   // Quantity change
   cartItemsDiv.querySelectorAll('.cart-qty-input').forEach(input => {
