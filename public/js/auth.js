@@ -96,7 +96,9 @@ function setupLoginFlow() {
       }
       feedback.textContent = 'Registering...';
       feedback.style.color = '#333';
-      const { error } = await supabase.auth.signUp({ email: currentEmail, password });
+      const { error } = await supabase.auth.signUp({ email: currentEmail, password }, {
+        redirectTo: 'https://danvee-enterprise.vercel.app/index.html'
+      });
       if (error) {
         feedback.textContent = 'Registration failed: ' + error.message;
         feedback.style.color = 'red';
