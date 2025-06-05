@@ -13,29 +13,74 @@
     <script type="module" src="js/supabaseClient.js"></script>
 
     <script type="module">
-        import { supabase } from '../js/supabaseClient.js';
+        import { supabase } from './js/supabaseClient.js'; // Fixed path - removed '../'
 
         document.addEventListener('DOMContentLoaded', async () => {
             console.log('auth-callback.html: DOMContentLoaded fired.');
-            // This page is meant to handle redirects from Supabase auth (e.g., email confirmation, password reset).
-            // The access token and refresh token are typically in the URL hash (#).
-            const { data, error } = await supabase.auth.getSession();
+            
+            try {
+                // Get URL parameters for email confirmation
+                const urlParams = new URLSearchParams(window.location.search);
+                const token_hash = urlParams.get('token_hash');
+                const type = urlParams.get('type');
 
-            if (error) {
-                console.error('auth-callback.html: Error getting session after redirect:', error.message);
-                // Optionally display an error message to the user
-                document.body.innerHTML = '<p style="color: red;">Authentication failed. Please try again.</p>';
-            } else if (data?.session) {
-                console.log('auth-callback.html: Session found after redirect.', data.session);
-                console.log('Session found after redirect, redirecting to home page...');
-                // Redirect to the home page after successful authentication
-                window.location.replace('index.html');
-            } else {
-                 console.log('auth-callback.html: No session found after redirect.');
-                 console.log('No session found after redirect, redirecting to login...');
-                 // If no session is found (e.g., email confirmation link already used or invalid),
-                 // redirect to the login page.
-                 window.location.replace('login.html');
+                if (token_hash && type) {
+                    // This is an email confirmation or password reset
+                    console.log('Processing email confirmation/reset with token...');
+                    
+                    const { data, error } = await supabase.auth.verifyOtp({
+                        token_hash: token_hash,
+                        type: type
+                    });
+
+                    if (error) {
+                        console.error('Email verification error:', error.message);
+                        document.body.innerHTML = '<p style="color: red;">Email verification failed: ' + error.message + '</p>';
+                        // Redirect to login after 3 seconds
+                        setTimeout(() => {
+                            window.location.replace('login.html');
+                        }, 3000);
+                    } else {
+                        console.log('Email verified successfully:', data);
+                        document.body.innerHTML = '<p style="color: green;">Email verified successfully! Redirecting...</p>';
+                        // Redirect to home page after successful verification
+                        setTimeout(() => {
+                            window.location.replace('https://danvee-enterprise.vercel.app/index.html');
+                        }, 2000);
+                    }
+                } else {
+                    // Check for existing session (for other auth flows)
+                    console.log('No token parameters found, checking for existing session...');
+                    const { data, error } = await supabase.auth.getSession();
+
+                    if (error) {
+                        console.error('Error getting session after redirect:', error.message);
+                        document.body.innerHTML = '<p style="color: red;">Authentication failed. Please try again.</p>';
+                        setTimeout(() => {
+                            window.location.replace('login.html');
+                        }, 3000);
+                    } else if (data?.session) {
+                        console.log('Session found after redirect:', data.session);
+                        document.body.innerHTML = '<p style="color: green;">Authentication successful! Redirecting...</p>';
+                        // Redirect to the home page after successful authentication
+                        setTimeout(() => {
+                            window.location.replace('https://danvee-enterprise.vercel.app/index.html');
+                        }, 2000);
+                    } else {
+                        console.log('No session found after redirect.');
+                        document.body.innerHTML = '<p>No active session found. Redirecting to login...</p>';
+                        // If no session is found, redirect to the login page
+                        setTimeout(() => {
+                            window.location.replace('login.html');
+                        }, 3000);
+                    }
+                }
+            } catch (err) {
+                console.error('Unexpected error in auth callback:', err);
+                document.body.innerHTML = '<p style="color: red;">An unexpected error occurred. Please try again.</p>';
+                setTimeout(() => {
+                    window.location.replace('login.html');
+                }, 3000);
             }
         });
     </script>
