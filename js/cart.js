@@ -311,13 +311,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Proceed with checkout (simplified: save to DB)
-            await saveOrderToDatabase(session.user.id, cart);
+            // Get user email for Paystack
+            const userEmail = session.user.email;
+            // Calculate total amount in kobo (Paystack requires amount in smallest currency unit)
+            const totalAmountKobo = calculateTotal(cart) * 100;
 
-            // Clear cart and redirect
-            await clearCart(); // Use async clearCart
-            alert('Checkout successful!');
-            window.location.href = 'index.html'; // Redirect to homepage
+            // Check if PaystackPop is available before initializing
+            if (typeof PaystackPop === 'undefined' || !PaystackPop.setup) {
+                console.error('Paystack script not loaded or initialized properly.');
+                alert('Payment system not ready. Please try again.');
+                return;
+            }
+
+            // Initialize Paystack payment
+            const handler = PaystackPop.setup({
+                key: 'pk_test_ab1fbe944121931795d2d24d15d646458048cfb7', // Replace with your public key
+                email: userEmail,
+                amount: totalAmountKobo,
+                currency: 'GHS', // Specify currency, e.g., 'GHS' for Ghana Cedis
+                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // generates a random 10 digit reference number
+                callback: function(response){
+                  // Payment successful, save order and clear cart
+                  console.log('Paystack payment successful:', response);
+
+                  // Define and immediately call an async function to handle async operations
+                  async function handleSuccessfulPayment() {
+                    await saveOrderToDatabase(session.user.id, cart);
+                    await clearCart(); // Use async clearCart
+                    alert('Payment successful! Your order has been placed.');
+                    window.location.href = 'index.html'; // Redirect to homepage
+                  }
+
+                  handleSuccessfulPayment();
+                },
+                onClose: function(){
+                  // User closed the modal
+                  console.log('Paystack payment modal closed.');
+                },
+              });
+
+              // Open the payment modal
+              handler.openIframe();
+
         });
     }
 });
