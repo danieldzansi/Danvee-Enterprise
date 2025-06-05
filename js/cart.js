@@ -59,10 +59,6 @@ async function getCart() {
         console.log("getCart(): DB cart is empty.");
     }
 
-    // If we reach here, either DB cart was empty or product details fetch failed,
-    // AND there was no local cart to migrate (migration logic is now within the SIGNED_IN block listener).
-    // For now, the migration check will solely be in the auth state change listener.
-
     return dbCartItems; // Return the (potentially empty) cart from DB
 
   } else {
@@ -120,10 +116,13 @@ async function saveCart(cart) {
 
      // Also remove items from DB if they are not in the cartToSave (e.g. item was removed)
      // Filter out items from updatedCartItems that are not in simpleCartItemsToSave
+    const originalLength = updatedCartItems.length;
     updatedCartItems = updatedCartItems.filter(existingItem => 
         simpleCartItemsToSave.some(itemToSave => itemToSave.id === existingItem.id)
     );
-     cartNeedsUpdate = cartNeedsUpdate || (updatedCartItems.length !== simpleCartItemsToSave.length);
+    if (originalLength !== updatedCartItems.length) {
+        cartNeedsUpdate = true;
+    }
 
     if (cartNeedsUpdate || !existingCart) { // Save if cart changed or if no cart existed before
         console.log("saveCart(): Final items array for DB operation:", updatedCartItems);
@@ -226,10 +225,6 @@ async function renderCart() { // Made async because getCart is now async
 
   let total = 0;
   cartItemsDiv.innerHTML = cart.map(item => {
-    // Ensure item has necessary properties for display (name, price, image_url)
-    // This is important because DB stored items might only have id and quantity initially.
-    // In a real app, you'd fetch full product details based on item.id if needed here.
-    // For now, assuming getCart() provides enough details or they are fetched during migration.
     total += item.price * item.quantity;
     return `
       <div class="cart-item">
@@ -250,7 +245,8 @@ async function renderCart() { // Made async because getCart is now async
       const id = input.getAttribute('data-id');
       const newQuantity = Math.max(1, parseInt(input.value));
       let cart = await getCart(); // Use async getCart
-      const item = cart.find(i => i.id === id);
+      // Convert id to correct type for comparison
+      const item = cart.find(i => String(i.id) === String(id));
       if (item) {
         item.quantity = newQuantity;
         console.log("renderCart(): Quantity changed, cart state before saving", cart);
@@ -259,14 +255,31 @@ async function renderCart() { // Made async because getCart is now async
       }
     });
   });
-  // Remove item
+  
+  // Remove item - FIXED VERSION
   cartItemsDiv.querySelectorAll('.cart-remove-btn').forEach(btn => {
-    btn.addEventListener('click', async () => { // Made async
+    btn.addEventListener('click', async (e) => { // Made async
+      e.preventDefault(); // Prevent any default behavior
       const id = btn.getAttribute('data-id');
+      console.log("Remove button clicked for item ID:", id);
+      
       let cart = await getCart(); // Use async getCart
-      cart = cart.filter(i => i.id !== id);
-      await saveCart(cart); // Use async saveCart
-      renderCart();
+      console.log("Current cart before removal:", cart);
+      
+      // Convert both IDs to strings for comparison to avoid type mismatch
+      const originalLength = cart.length;
+      cart = cart.filter(i => String(i.id) !== String(id));
+      
+      console.log("Cart after filtering:", cart);
+      console.log("Items removed:", originalLength - cart.length);
+      
+      if (originalLength !== cart.length) {
+        await saveCart(cart); // Use async saveCart
+        console.log("Item removed, cart saved. Re-rendering...");
+        renderCart(); // Re-render the cart
+      } else {
+        console.log("No item was removed - ID not found in cart");
+      }
     });
   });
 }
@@ -278,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCart();
     }
 });
-
 
 // Checkout button logic
 document.addEventListener('DOMContentLoaded', () => {
@@ -300,11 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Proceed with checkout (simplified: save to DB)
-            // saveOrderToDatabase expects the cart items with full details.
-            // If the cart was loaded from DB (simple format), we need to fetch product details here.
-            // For simplicity now, let's assume getCart() fetches necessary details during migration
-            // or that saveOrderToDatabase can handle the simple format and fetch details itself.
-            // A more robust approach would be to ensure getCart always returns enriched items for rendering/checkout.
             await saveOrderToDatabase(session.user.id, cart);
 
             // Clear cart and redirect
@@ -319,15 +326,10 @@ document.addEventListener('DOMContentLoaded', () => {
 async function saveOrderToDatabase(userId, cartItems) {
     console.log('Saving order for user', userId, ':', cartItems);
 
-    // Ensure cartItems have full product details if they came from DB (simple format)
-    // In a real app, you might fetch details here or ensure getCart does.
-    // For this simplified version, we'll assume cartItems have necessary details or
-    // the 'items' column in 'orders' table can store the simple format and you process it on backend.
-
     const { data, error } = await supabase
         .from('orders')
         .insert([
-            { user_id: userId, items: cartItems, total: calculateTotal(cartItems) } // Assuming cartItems has price for total calculation
+            { user_id: userId, items: cartItems, total: calculateTotal(cartItems) }
         ]);
 
     if (error) {
@@ -338,8 +340,6 @@ async function saveOrderToDatabase(userId, cartItems) {
 
 // Helper function to calculate total (adjusts to handle simple cart items)
 function calculateTotal(cartItems) {
-     // Assuming cartItems have a 'price' property for calculation.
-     // If they only have id and quantity from DB, you'd need to fetch prices here.
     return cartItems.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
 }
 
@@ -369,23 +369,21 @@ supabase.auth.onAuthStateChange(async (_event, session) => {
 
                 if (productsError) {
                     console.error("onAuthStateChange: Error fetching product details for migration", productsError);
-                    // If product details can't be fetched, maybe save a simpler version or alert the user.
-                    // For now, we won't migrate if we can't enrich.
                 } else {
                      const itemsToMigrate = localCart.map(item => {
                          const product = products ? products.find(p => p.id === item.id) : null;
-                         return product ? { // Ensure product details are available
+                         return product ? {
                             id: item.id,
                             name: product.name,
                             price: product.price,
                             image_url: product.image_url,
                             quantity: item.quantity
-                         } : null; // Filter out items for which we couldn't get details
+                         } : null;
                     }).filter(item => item !== null);
 
                     if(itemsToMigrate.length > 0) {
-                         await saveCart(itemsToMigrate); // Save the enriched cart to DB
-                         localStorage.removeItem('cart'); // Clear local storage after successful migration
+                         await saveCart(itemsToMigrate);
+                         localStorage.removeItem('cart');
                          console.log("onAuthStateChange: localStorage cart migrated.");
                          // If on the cart page, re-render after migration
                          if (window.location.pathname.endsWith('cart.html')) {
@@ -398,6 +396,5 @@ supabase.auth.onAuthStateChange(async (_event, session) => {
     } else if (_event === 'SIGNED_OUT') {
         console.log('User signed out.');
         // clearCart is already called by the logout function in auth.js
-        // We could potentially sync DB cart to localStorage here, but clearing is simpler for now.
     }
-}); 
+});
