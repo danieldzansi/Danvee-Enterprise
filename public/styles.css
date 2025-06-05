@@ -267,11 +267,15 @@ button:hover {
   }
   body {
     padding-top: 150px; /* Further adjust padding for very small screens */
+    font-size: 16px; /* Increase base font size for mobile */
   }
   .main-nav {
     flex-direction: column;
     gap: 6px;
     width: 100%;
+  }
+  .main-nav a {
+    font-size: 1.1rem; /* Increase navigation font size */
   }
   .header-actions {
     flex-direction: column;
@@ -282,24 +286,55 @@ button:hover {
   .search-bar {
     min-width: 100px;
     width: 100%;
+    font-size: 1rem; /* Ensure search bar text is readable */
   }
-  /* Ensure header action items take full width */
-  .header-actions > * {
-    width: 100%;
-    margin-right: 0 !important; /* Override any potential right margins */
+  .search-btn {
+    font-size: 1rem; /* Match search button text size */
   }
-
-  /* Adjust alignment for specific items if needed */
-  .header-actions .search-btn {
-    width: auto; /* Search button should not be full width */
-    align-self: flex-end; /* Align to the right */
+  .cart-link, #user-area a {
+    font-size: 1.1rem; /* Increase cart and user area text size */
   }
-
-  .header-actions .cart-link,
-  .header-actions #user-area {
-    width: 100%; /* Allow these to take natural width */
-    align-self: flex-start; /* Align to the left */
-    margin-top: 6px; /* Add a little space above */
+  .banner-content h2 {
+    font-size: 2rem; /* Adjust banner heading size */
+  }
+  .banner-content p {
+    font-size: 1.1rem; /* Adjust banner text size */
+  }
+  .category-card span {
+    font-size: 1.1rem; /* Increase category text size */
+  }
+  .product-card h3 {
+    font-size: 1.2rem; /* Increase product title size */
+  }
+  .product-card p {
+    font-size: 1.1rem; /* Increase product price size */
+  }
+  .product-card button {
+    font-size: 1.1rem; /* Increase button text size */
+  }
+  .cart-item-info {
+    font-size: 1.1rem; /* Increase cart item text size */
+  }
+  .cart-qty-input {
+    font-size: 1.1rem; /* Increase quantity input text size */
+  }
+  .cart-remove-btn {
+    font-size: 1.1rem; /* Increase remove button text size */
+  }
+  .cart-total {
+    font-size: 1.3rem; /* Increase cart total text size */
+  }
+  .product-detail-info h2 {
+    font-size: 1.6rem; /* Adjust product detail title size */
+  }
+  .product-price {
+    font-size: 1.4rem; /* Adjust product price size */
+  }
+  .product-detail-info p {
+    font-size: 1.1rem; /* Increase product description text size */
+  }
+  .product-detail-info button {
+    font-size: 1.2rem; /* Increase add to cart button text size */
   }
 }
 .auth-bg {
