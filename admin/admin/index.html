@@ -2,55 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard - DANVEE</title>
+  <title>Admin - DANVEE</title>
+  <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="admin.css">
-  
-
+  <script type="module" src="supabaseClient.js" defer></script>
   <script type="module" src="adminAuth.js" defer></script>
   <script type="module" src="admin.js" defer></script>
-  <script type="module" src="supabaseClient.js" defer></script>
-  <style>
-    #admin-dashboard-section {
-      display: none;
-    }
-  </style>
 </head>
 <body>
-
-  <!-- Admin Login Section (Initially shown) -->
-  <div id="admin-login-section" class="admin-auth-container">
-    <div class="admin-auth-card">
-      <h2 class="admin-auth-title">Admin Login</h2>
-      <form id="admin-login-form" class="admin-auth-form">
-        <label for="admin-email" class="admin-auth-label">Email Address:</label>
-        <input type="email" id="admin-email" class="admin-auth-input" required>
-
-        <label for="admin-password" class="admin-auth-label">Password:</label>
-        <input type="password" id="admin-password" class="admin-auth-input" required>
-
-        <button type="submit" class="admin-auth-btn">Login</button>
-      </form>
-      <div id="admin-login-feedback" class="admin-auth-feedback"></div>
+  <!-- Login Section - Shown by default -->
+  <div id="loginSection" class="admin-auth-bg">
+    <div class="admin-auth-container">
+      <div class="admin-auth-card">
+        <h2 class="admin-auth-title">Admin Login</h2>
+        <form id="loginForm" class="admin-auth-form">
+          <label for="email" class="admin-auth-label">Email:</label>
+          <input type="email" id="email" name="email" class="admin-auth-input" required>
+          
+          <label for="password" class="admin-auth-label">Password:</label>
+          <input type="password" id="password" name="password" class="admin-auth-input" required>
+          
+          <button type="submit" class="admin-auth-btn">Login</button>
+          <div id="loginFeedback" class="admin-auth-feedback"></div>
+        </form>
+      </div>
     </div>
   </div>
 
-  <!-- Admin Dashboard Section (Initially hidden) -->
-  <div id="admin-dashboard-section" style="display: none;">
+  <!-- Dashboard Section - Hidden by default -->
+  <div id="dashboardSection" style="display: none;">
     <header class="admin-header">
-      <h1>DANVEE Admin Dashboard</h1>
+      <h1>Admin Dashboard</h1>
       <nav>
-        <a href="#orders">Orders</a>
-        <!-- Add other admin links here -->
+        <a href="#" id="ordersLink">Orders</a>
+        <a href="#" id="logoutBtn">Logout</a>
       </nav>
     </header>
+    
     <main class="admin-main">
-      <h2>Recent Orders</h2>
       <div id="orders-list">
-        Loading orders...
+        <h2>Orders</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- Orders will be populated here -->
+          </tbody>
+        </table>
       </div>
-      <!-- Add other admin sections here -->
     </main>
   </div>
 
+  <!-- <script type="module">
+    // Merged functionality to handle both login and dashboard
+    
+    // Check if user is already authenticated on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Check authentication status
+      const isAuthenticated = await checkAuthStatus(); // You'll need to implement this
+      
+      if (isAuthenticated) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+    });
+
+    // Function to show login section
+    function showLogin() {
+      document.getElementById('loginSection').style.display = 'block';
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.body.className = 'admin-auth-bg';
+      document.title = 'Admin Login - DANVEE';
+    }
+
+    // Function to show dashboard section
+    function showDashboard() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'block';
+      document.body.className = '';
+      document.title = 'Admin Dashboard - DANVEE';
+    }
+
+    // Handle login form submission
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      try {
+        // Your login logic here (using your existing adminAuth.js functions)
+        const loginSuccess = await authenticateUser(email, password); // Implement this
+        
+        if (loginSuccess) {
+          showDashboard();
+        } else {
+          document.getElementById('loginFeedback').textContent = 'Login failed. Please check your credentials.';
+          document.getElementById('loginFeedback').style.color = 'red';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        document.getElementById('loginFeedback').textContent = 'An error occurred during login.';
+        document.getElementById('loginFeedback').style.color = 'red';
+      }
+    });
+
+    // Handle logout
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+      try {
+        // Your logout logic here
+        await logoutUser(); // Implement this
+        showLogin();
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    });
+
+    // Placeholder functions - replace with your actual implementations
+    async function checkAuthStatus() {
+      // Check if user is authenticated (implement with your Supabase logic)
+      return false; // Default to not authenticated
+    }
+
+    async function authenticateUser(email, password) {
+      // Implement your authentication logic here
+      // Return true if successful, false otherwise
+      return false;
+    }
+
+    async function logoutUser() {
+      // Implement your logout logic here
+    }
+  </script> -->
 </body>
-</html> 
+</html>

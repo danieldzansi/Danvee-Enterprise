@@ -1,27 +1,38 @@
 import { supabase } from './supabaseClient.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('admin-login-form');
-  const emailInput = document.getElementById('admin-email');
-  const passwordInput = document.getElementById('admin-password');
-  const feedbackDiv = document.getElementById('admin-login-feedback');
+  const loginForm = document.getElementById('loginForm');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const feedbackDiv = document.getElementById('loginFeedback');
 
   // Get references to the sections
-  const loginSection = document.getElementById('admin-login-section');
-  const dashboardSection = document.getElementById('admin-dashboard-section');
+  const loginSection = document.getElementById('loginSection');
+  const dashboardSection = document.getElementById('dashboardSection');
+  const logoutBtn = document.getElementById('logoutBtn');
 
   // Function to update UI based on auth state
   function updateAuthUI(session) {
     if (session) {
       // User is logged in, show dashboard, hide login
       if (loginSection) loginSection.style.display = 'none';
-      if (dashboardSection) dashboardSection.style.display = ''; // or 'block' or 'flex' depending on layout
+      if (dashboardSection) dashboardSection.style.display = 'block';
+      // Update body class and title for dashboard
+      document.body.className = '';
+      document.title = 'Admin Dashboard - DANVEE';
       console.log('Admin user logged in.');
+      
+      // Clear any login feedback
+      if (feedbackDiv) feedbackDiv.textContent = '';
+      
       // Optionally, fetch and display admin data here (or in admin.js)
     } else {
       // User is not logged in, show login, hide dashboard
-      if (loginSection) loginSection.style.display = ''; // or 'block' or 'flex'
+      if (loginSection) loginSection.style.display = 'block';
       if (dashboardSection) dashboardSection.style.display = 'none';
+      // Update body class and title for login
+      document.body.className = 'admin-auth-bg';
+      document.title = 'Admin Login - DANVEE';
       console.log('Admin user logged out.');
     }
   }
@@ -36,26 +47,80 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAuthUI(session);
   });
 
+  // Handle login form submission
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const email = emailInput.value;
+      const email = emailInput.value.trim();
       const password = passwordInput.value;
 
-      feedbackDiv.textContent = ''; // Clear previous feedback
+      // Clear previous feedback
+      feedbackDiv.textContent = '';
+      feedbackDiv.style.color = '';
 
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      // Show loading state
+      const submitBtn = loginForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.textContent = 'Logging in...';
+      submitBtn.disabled = true;
 
-      if (error) {
-        feedbackDiv.textContent = 'Login failed: ' + error.message;
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ 
+          email, 
+          password 
+        });
+
+        if (error) {
+          feedbackDiv.textContent = 'Login failed: ' + error.message;
+          feedbackDiv.style.color = 'red';
+        } else {
+          feedbackDiv.textContent = 'Login successful! Loading dashboard...';
+          feedbackDiv.style.color = 'green';
+          // Clear form
+          loginForm.reset();
+          // The updateAuthUI function will be called automatically by onAuthStateChange
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        feedbackDiv.textContent = 'An unexpected error occurred. Please try again.';
         feedbackDiv.style.color = 'red';
-      } else {
-        feedbackDiv.textContent = 'Login successful! Updating UI...';
-        feedbackDiv.style.color = 'green';
-        // No redirect needed, the auth state change listener handles UI update
-        // The updateAuthUI function will be called automatically by onAuthStateChange
+      } finally {
+        // Reset button state
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
       }
     });
   }
-}); 
+
+  // Handle logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      try {
+        const { error } = await supabase.auth.signOut();
+        
+        if (error) {
+          console.error('Logout error:', error);
+          alert('Error logging out. Please try again.');
+        } else {
+          console.log('Logout successful');
+          // The updateAuthUI function will be called automatically by onAuthStateChange
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+        alert('Error logging out. Please try again.');
+      }
+    });
+  }
+});
+
+// Export functions for use in the main index.html script if needed
+export function getCurrentSession() {
+  return supabase.auth.getSession();
+}
+
+export function logout() {
+  return supabase.auth.signOut();
+}
